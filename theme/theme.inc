@@ -17,6 +17,7 @@ function islandora_web_archive_preprocess_islandora_web_archive(array &$variable
   drupal_add_js('misc/form.js');
   drupal_add_js('misc/collapse.js');
   $object = $variables['object'];
+
   // We should eventually remove the DC object and dc_array code as it only
   // exists to not break legacy implementations.
   try {
@@ -53,9 +54,11 @@ function islandora_web_archive_preprocess_islandora_web_archive(array &$variable
   }
 
   // Download warc.
+  module_load_include('inc', 'islandora', 'includes/mimetype.utils');
   if (isset($object['OBJ']) && islandora_datastream_access(ISLANDORA_VIEW_OBJECTS, $object['OBJ'])) {
-    $warc_url = url("islandora/object/{$object->id}/datastream/OBJ/{$object->label}.warc", array('absolute' => TRUE));
-    $variables['islandora_warc'] = l($variables['islandora_object_label'] . '.warc', $warc_url, array('html' => TRUE));
+    $file_ext = islandora_get_extension_for_mimetype($object['OBJ']->mimetype);
+    $warc_url = url("islandora/object/{$object->id}/datastream/OBJ/{$object->label}.{$file_ext}", array('absolute' => TRUE));
+    $variables['islandora_warc'] = l($variables['islandora_object_label'] . '.' . $file_ext, $warc_url, array('html' => TRUE));
   }
 
   // Download pdf.
@@ -65,7 +68,6 @@ function islandora_web_archive_preprocess_islandora_web_archive(array &$variable
   }
 
   // Download screenshot.
-  module_load_include('inc', 'islandora', 'includes/mimetype.utils');
   if (isset($object['SCREENSHOT']) && islandora_datastream_access(ISLANDORA_VIEW_OBJECTS, $object['SCREENSHOT'])) {
     $file_ext = islandora_get_extension_for_mimetype($object['SCREENSHOT']->mimetype);
     $file_url = url("islandora/object/{$object->id}/datastream/SCREENSHOT/{$object->label}.{$file_ext}", array('absolute' => TRUE));
@@ -76,6 +78,30 @@ function islandora_web_archive_preprocess_islandora_web_archive(array &$variable
   if (isset($object['WARC_CSV']) && islandora_datastream_access(ISLANDORA_VIEW_OBJECTS, $object['WARC_CSV'])) {
     $csv_url = url("islandora/object/{$object->id}/datastream/WARC_CSV/{$object->label}.csv", array('absolute' => TRUE));
     $variables['islandora_csv'] = l($variables['islandora_object_label'] . '.csv', $csv_url, array('html' => TRUE));
+  }
+
+  // Download CDX.
+  if (isset($object['CDX']) && islandora_datastream_access(ISLANDORA_VIEW_OBJECTS, $object['CDX'])) {
+    $cdx_url = url("islandora/object/{$object->id}/datastream/CDX/{$object->label}.cdx", array('absolute' => TRUE));
+    $variables['islandora_cdx'] = l($variables['islandora_object_label'] . '.cdx', $cdx_url, array('html' => TRUE));
+  }
+
+  // Download WAT.
+  if (isset($object['WAT']) && islandora_datastream_access(ISLANDORA_VIEW_OBJECTS, $object['WAT'])) {
+    $wat_url = url("islandora/object/{$object->id}/datastream/WAT/{$object->label}.wat.gz", array('absolute' => TRUE));
+    $variables['islandora_wat'] = l($variables['islandora_object_label'] . '.wat.gz', $wat_url, array('html' => TRUE));
+  }
+
+  // Download SEEDLIST.
+  if (isset($object['SEEDLIST']) && islandora_datastream_access(ISLANDORA_VIEW_OBJECTS, $object['SEEDLIST'])) {
+    $seedlist_url = url("islandora/object/{$object->id}/datastream/SEEDLIST/{$object->label}.txt", array('absolute' => TRUE));
+    $variables['islandora_seedlist'] = l($variables['islandora_object_label'] . '.txt', $seedlist_url, array('html' => TRUE));
+  }
+
+  // Download HERITRIX.
+  if (isset($object['HERITRIX']) && islandora_datastream_access(ISLANDORA_VIEW_OBJECTS, $object['HERITRIX'])) {
+    $heritrix_url = url("islandora/object/{$object->id}/datastream/HERITRIX/{$object->label}.txt", array('absolute' => TRUE));
+    $variables['islandora_heritrix'] = l('crawler-beans.cxml', $heritrix_url, array('html' => TRUE));
   }
 
   // Medium size.

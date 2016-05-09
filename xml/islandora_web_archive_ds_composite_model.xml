@@ -15,6 +15,7 @@
   <dsTypeModel ID="OBJ" optional="true">
     <form MIME="application/warc"/>
     <form MIME="application/octet-stream"/>
+    <form MIME="application/x-gzip"/>
   </dsTypeModel>
   <dsTypeModel ID="WARC_CSV" optional="false">
     <form MIME="text/plain"/>

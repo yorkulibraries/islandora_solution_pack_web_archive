@@ -21,16 +21,28 @@
       <h2><?php print t('Download'); ?></h2>
         <ul>
           <?php if (isset($islandora_warc)): ?>
-            <li>Warc: <?php print $islandora_warc; ?>
+            <li>warc: <?php print $islandora_warc; ?>
           <?php endif; ?>
           <?php if (isset($islandora_pdf)): ?>
-            <li>PDF: <?php print $islandora_pdf; ?>
+            <li>pdf: <?php print $islandora_pdf; ?>
           <?php endif; ?>
           <?php if (isset($islandora_screenshot)): ?>
             <li>Screenshot: <?php print $islandora_screenshot; ?>
           <?php endif; ?>
           <?php if (isset($islandora_csv)): ?>
-            <li>CSV: <?php print $islandora_csv; ?>
+            <li>csv: <?php print $islandora_csv; ?>
+          <?php endif; ?>
+          <?php if (isset($islandora_cdx)): ?>
+            <li>cdx: <?php print $islandora_cdx; ?>
+          <?php endif; ?>
+          <?php if (isset($islandora_wat)): ?>
+            <li>wat: <?php print $islandora_wat; ?>
+          <?php endif; ?>
+          <?php if (isset($islandora_seedlist)): ?>
+            <li>Seed list: <?php print $islandora_seedlist; ?>
+          <?php endif; ?>
+          <?php if (isset($islandora_heritrix)): ?>
+            <li>Heritrix configuration: <?php print $islandora_heritrix; ?>
           <?php endif; ?>
         </ul>
     </div>
